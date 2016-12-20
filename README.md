@@ -14,10 +14,7 @@ This extension was inspired by this [mailchimp forum post](https://auth0.com/for
 
 ## TODO 
 
-1. Pagination Auth0 on user retrieval
-2. Bluebird 3.4.6 NPM support with Webtasks
-3. Testing via Manage once Bluebird available
-4. Documentation
+Review and address the Issues raised as part of code review.
 
 ## Configure Webtask
 
