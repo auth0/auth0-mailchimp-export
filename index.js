@@ -3,7 +3,7 @@ var app = express();
 var memoizer = require('lru-memoizer');
 var Request = require('superagent');
 var syncWithMailChimp = require('./scripts/syncWithMailChimp');
-
+var metadata = require('./webtask.json');
 
 function job (req, res) {
 
@@ -75,6 +75,10 @@ var getTokenCached = memoizer({
 });
 
 app.use(function (req, res, next) {
+  // Exclude /meta from authz
+  if (req.path === '/meta') {
+    return next();
+  }
 
   var apiUrl       = 'https://' + req.webtaskContext.data.AUTH0_DOMAIN + '/oauth/token';
   var audience     = 'https://' + req.webtaskContext.data.AUTH0_DOMAIN + '/api/v2/';
@@ -96,5 +100,9 @@ app.use(function (req, res, next) {
 
 app.get ('/', job);
 app.post('/', job);
+
+app.get('/meta', function (req, res) {
+  res.status(200).send(metadata);
+});
 
 module.exports = app;
