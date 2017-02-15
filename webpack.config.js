@@ -15,6 +15,12 @@ module.exports = Request.get(LIST_MODULES_URL, { json: true }).then(function (da
       library: true,
       libraryTarget: 'commonjs2',
     },
+    module: {
+      loaders: [{
+        test: /\.json?$/,
+        loader: 'json'
+      }]
+    },
     externals: _(modules).reduce(function (acc, module) {
       if (module.name === 'bluebird') {
         return _.set(acc, module.name, false);
